@@ -1,0 +1,21 @@
+(100) Prog getsum
+(101) sum := 0
+(102) T0 := n != 0
+(103) if T0 == 1 Goto 105
+(104) Goto 112
+(105) T1 := sum + a
+(106) sum := T1
+(107) T2 := a + 5
+(108) a := T2
+(109) T3 := n - 1
+(110) n := T3
+(111) Goto 102
+(112) return sum
+
+(113) Prog main
+(114) param 2
+(115) param 100
+(116) T4 := call getsum
+(117) param T4
+(118) T55 := call output
+(119) return

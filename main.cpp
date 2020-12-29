@@ -6,7 +6,11 @@
 #include <set>
 #include <cassert>
 #include <fstream>
-
+/*
+ * @author Xu Yusheng
+ * @since 2020-12-28
+ * @version 0.1
+ * */
 using namespace std;
 using string_to_string_map = map<string, string>;
 using string_to_int_map = map<string, int>;
@@ -20,6 +24,7 @@ void handler(const string &cmd);
 
 string_vec callingLink;
 string_to_int_map globalVariable;
+bool dbg = true;
 
 int execute();
 
@@ -46,7 +51,7 @@ string_vec codeVec; //代码行
 string_to_function_map functionBaseRecord;
 int_vec tempVariable;
 int stackPointer = 0;
-int lastPointer = 0;
+
 struct FunctionFrame {
     string_to_int_map varMap;
 };
@@ -169,7 +174,9 @@ void handler(const string &cmd) {
 #ifdef DEBUG
     cout << cmd << endl;
 #endif
-    if (cmd == "total") {
+    if (cmd == "dbg") {
+        dbg = !dbg;
+    } else if (cmd == "total") {
         printMap(globalVariable);
     } else if (cmd == "code") {
         for (const auto &lineCode : codeVec)
@@ -183,6 +190,10 @@ void handler(const string &cmd) {
                 cout << ele << " ";
             cout << endl;
         }
+    } else if (cmd == "temp") {
+        for (const auto &ele:tempVariable)
+            cout << ele << " ";
+        cout << endl;
     } else if (cmd == "clear") {
         programCounter = 0;
     } else if (cmd.substr(0, 8) == "loadcode") {
@@ -360,6 +371,7 @@ int eval(const string_vec &tokens) {
                     return input<int>(tokens.front());
                 } else if (str == "output") {
                     output(tempVariable.front());
+                    tempVariable.clear();
                     return 0;
                 } else {
                     cerr << targetFunc << "为关键字但是并没有提供实现" << endl;
@@ -367,15 +379,16 @@ int eval(const string_vec &tokens) {
             }
         }
         //调用函数 buildFrame T4 := call gcd
-        lastPointer = stackPointer;
+        int lastPointer = stackPointer;
         stackPointer = functionRecord[targetFunc];
         FunctionFrame functionFrame = curFrame;
         curFrame = buildFunctionFrame(functionBaseRecord[targetFunc]);
         callingLink.push_back(targetFunc);
-        execute();
+        int temp = execute();
         stackPointer = lastPointer;
         callingLink.pop_back();
         curFrame = functionFrame;
+        return temp;
     }
 }
 
@@ -385,13 +398,15 @@ int execute() {
         const string &code = codeVec[goal];
         cout << "Now Line :  " << "(" << stackPointer << ")" << " executing " << "` " << code << " `" << endl;
         string temp;
-        while (cin >> temp && temp != "c") {
+
+        while (dbg && cout << "dbg< " && cin >> temp && temp != "c") {
             handler(temp);
         }
         if (startWith(code, "Prog")) {
             ++stackPointer;
             continue;
         } else if (startWith(code, "call")) {
+            //TODO Fix this error
             string targetFunc = code.substr(6);
             bool flag = false;
             for (const auto &str:reversedFunc) {
@@ -401,12 +416,13 @@ int execute() {
                         input<int>();
                     } else if (str == "output") {
                         output(tempVariable.front());
+                        tempVariable.clear();
                     }
                 }
                 ++stackPointer;
             }
             if (flag) continue;
-            lastPointer = stackPointer + 1;
+            int lastPointer = stackPointer + 1;
             stackPointer = functionRecord[targetFunc];
             FunctionFrame functionFrame = curFrame;
             curFrame = buildFunctionFrame(functionBaseRecord[targetFunc]);
@@ -418,14 +434,15 @@ int execute() {
         } else if (startWith(code, "return")) {
             if (code.size() == 6) return 0;
             string targetVariable = code.substr(7);
-            return curFrame.varMap[targetVariable];
+//            return curFrame.varMap[targetVariable];
+            return fetch(targetVariable);
         } else if (startWith(code, "param")) {
             string targetExpr = code.substr(6);
             int localNumber = 0;
-            if (isNum(code[0])) {
+            if (isNum(targetExpr[0])) {
                 localNumber = string_to_int(targetExpr);
             } else {
-                localNumber = curFrame.varMap[targetExpr];
+                localNumber = fetch(targetExpr);
             }
             tempVariable.push_back(localNumber);
             ++stackPointer;
@@ -447,11 +464,12 @@ int execute() {
         } else {
             auto &&tokens = split(code, " ");
             if (tokens[1] == ":=") {
-                globalVariable[tokens[0]] = eval(tokens);
+                int temp = eval(tokens);
+                globalVariable[tokens[0]] = temp;
                 if (curFrame.varMap.find(tokens[0]) != curFrame.varMap.end())
-                    curFrame.varMap[tokens[0]] = eval(tokens);
+                    curFrame.varMap[tokens[0]] = temp;
                 else
-                    variableRecord[tokens[0]] = eval(tokens);
+                    variableRecord[tokens[0]] = temp;
             } else {
                 cerr << "unsupported vm code" << endl;
             }
@@ -460,7 +478,6 @@ int execute() {
     }
     return 0;
 }
-
 
 auto eval(const string &expr) {
 
