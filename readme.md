@@ -46,6 +46,25 @@ tempVariables: 对于使用`param`指令存入的数据会存入该变量中
 
 - midCode.txt gcd示范代码的三地址码
 - symbol.txt gcd程序的符号表
-
 - midCode2.txt 循环求和
 - symbol2.txt 循环求和的符号表
+
+## 基本块划分
+
+`midCodeOptimizer`可执行文件
+
+命令:
+
+- load xxx.file 装载文件xxx.file
+- split block 基本块划分
+- print block 输出基本块
+- pf xxx.file 输出基本块划分信息到文件xxx.file
+
+例子:
+
+```
+load tCode.txt
+split block
+pf out.txt
+```
+

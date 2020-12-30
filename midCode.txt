@@ -21,7 +21,7 @@
 (119) param y
 (120) T7 := call gcd
 (121) param T7
-(122) T8 := call output
+(122) call output
 (123) T9 := 1 + 1
 (124) x := T9
 (125) return

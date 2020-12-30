@@ -402,12 +402,13 @@ int execute() {
         while (dbg && cout << "dbg< " && cin >> temp && temp != "c") {
             handler(temp);
         }
+        programCounter++;
+
         if (startWith(code, "Prog")) {
             ++stackPointer;
             continue;
         } else if (startWith(code, "call")) {
-            //TODO Fix this error
-            string targetFunc = code.substr(6);
+            string targetFunc = code.substr(5);
             bool flag = false;
             for (const auto &str:reversedFunc) {
                 if (str == targetFunc) {
