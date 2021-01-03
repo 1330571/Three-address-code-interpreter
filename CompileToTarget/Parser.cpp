@@ -156,7 +156,7 @@ void Parser::parseToken() {
                 } else {
                     CondV = fetchValue(opd1);
                 }
-                CondV = Builder->CreateFCmpONE(CondV, ConstantInt::get(*TheContext, APInt(32, 1, true)), "if_cond");
+//                CondV = Builder->CreateICmpEQ(CondV, ConstantInt::get(*TheContext, APInt(32, 1, true)), "if_cond");
 
                 Function *TheFunction = Builder->GetInsertBlock()->getParent();
 

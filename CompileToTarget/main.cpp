@@ -19,12 +19,12 @@ int main() {
     std::cout << "Initializing LLVM Target Machine Components" << std::endl;
     initializeTarget();
 //    initializeIOFunc();
-    ifstream file("C.txt");
+    ifstream file("fib");
     vector<string> codeLine;
     string temp;
     while (getline(file, temp))
         codeLine.push_back(temp);
-    buildFunc("S.txt");
+    buildFunc("S2");
     Lexer lexer(codeLine);
     Parser parser(lexer);
 
@@ -60,7 +60,7 @@ int buildObj() {
     TheModule->setDataLayout(TargetMachine->createDataLayout());
     TheModule->setTargetTriple(TargetTriple);
     //Emit Object Code
-    auto Filename = "output.o";
+    auto Filename = "fib.o";
     std::error_code EC;
     raw_fd_ostream dest(Filename, EC, sys::fs::OF_None);
     if (EC) {

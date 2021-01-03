@@ -46,8 +46,8 @@ Value *createBinaryExpr(Value *lhs, Value *rhs, char op, bool includeEQ = false)
         case '/':
             return Builder->CreateSDiv(lhs, rhs, "div");
         case '<': {
-            if (includeEQ) {
-                Value *v = Builder->CreateCmp(CmpInst::FCMP_OLE, lhs, rhs, "cmp_le");
+            if (!includeEQ) {
+                Value *v = Builder->CreateCmp(CmpInst::ICMP_SLT, lhs, rhs, "cmp_le");
                 v = Builder->CreateIntCast(v, Type::getInt32Ty(*TheContext), true);
                 return v;
             }
@@ -57,8 +57,8 @@ Value *createBinaryExpr(Value *lhs, Value *rhs, char op, bool includeEQ = false)
 //            if (includeEQ) return Builder->CreateCmp(CmpInst::FCMP_OGE, lhs, rhs, "cmp_ge");
 //            else return Builder->CreateCmp(CmpInst::FCMP_OGT, lhs, rhs, "cmp_ge_eq");
         case '=': {
-            Value *v = Builder->CreateCmp(CmpInst::FCMP_OEQ, lhs, rhs, "cmp_eq");
-            v = Builder->CreateIntCast(v, Type::getInt32Ty(*TheContext), true);
+            Value *v = Builder->CreateCmp(CmpInst::ICMP_EQ, lhs, rhs, "cmp_eq");
+//            v = Builder->CreateIntCast(v, Type::getInt32Ty(*TheContext), true);
             return v;
         }
 //        case '!':

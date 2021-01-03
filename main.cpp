@@ -41,20 +41,18 @@ struct Function {
 using string_to_function_map = map<string, Function>;
 vector<string> reversedFunc = {"input", "output"};
 //变量声明
-string_to_int_map variableRecord;
-string_to_int_map functionRecord;
+string_to_int_map variableRecord;//变量记录 如T1 T2这些临时数据
+string_to_int_map functionRecord;//函数记录 记录函数调用的实际代码位置
 int_to_int_map lineToIdxRecord; //代码-索引映射表
 
 variable_set variableSet;
 string_vec codeVec; //代码行
 
-string_to_function_map functionBaseRecord;
+string_to_function_map functionBaseRecord;//记录所有函数的原型
 int_vec tempVariable;
 int stackPointer = 0;
 
-struct FunctionFrame {
-    string_to_int_map varMap;
-};
+struct FunctionFrame { string_to_int_map varMap; }; //函数变量信息支持
 
 FunctionFrame buildFunctionFrame(const Function &baseFunction) {
     const auto &nameVec = baseFunction.variables;
@@ -72,7 +70,7 @@ FunctionFrame buildFunctionFrame(const Function &baseFunction) {
     return functionFrame;
 }
 
-FunctionFrame curFrame;
+FunctionFrame curFrame; //当前所在的函数作用域的函数运行时信息
 namespace OP {
     template<typename T>
     T add(const T &a, const T &b) { return a + b; }
