@@ -100,6 +100,29 @@ pf out.txt
     z = 3 + x
     ```
 
+## 中间代码 TO LLVM IR
+
+可以直接运行CompileToTarget，用
+
+```bash
+mkdir build
+cd build
+cmake ..
+make
+```
+
+然后运行目标文件，生成一个fib.o文件
+
+详情查看testFib.cpp文件
+
+编译testFib
+
+```bash
+clang++ testFib.cpp fib.o -o testFib
+```
+
+运行testFib查看结果
+
 ## Reference
 
 [CS143 lecture14](http://web.stanford.edu/class/cs143/lectures/lecture14.pdf)
