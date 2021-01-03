@@ -1,0 +1,9 @@
+(100) Prog gcd
+(101) T0 := v == 0
+(106) T1 := u / v
+(107) T2 := T1 * v
+(108) T3 := u - T2
+(109) param v
+(110) param T3
+(111) T4 := call gcd
+(112) return T4

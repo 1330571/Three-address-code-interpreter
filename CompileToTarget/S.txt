@@ -1,8 +1,8 @@
 gcd
-begin
+PAR
 u
 v
 end
 main
-begin
+PAR
 end

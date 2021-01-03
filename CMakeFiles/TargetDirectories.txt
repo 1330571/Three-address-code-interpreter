@@ -1,0 +1,4 @@
+/Users/xys/Crystal/Personal Projects/MidCodeInterpreter/CMakeFiles/rebuild_cache.dir
+/Users/xys/Crystal/Personal Projects/MidCodeInterpreter/CMakeFiles/edit_cache.dir
+/Users/xys/Crystal/Personal Projects/MidCodeInterpreter/CMakeFiles/MidCodeOptimizer.dir
+/Users/xys/Crystal/Personal Projects/MidCodeInterpreter/CMakeFiles/MidCodeInterpreter.dir

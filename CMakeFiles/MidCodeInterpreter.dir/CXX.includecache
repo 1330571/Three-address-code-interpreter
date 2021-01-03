@@ -1,0 +1,26 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/xys/Crystal/Personal Projects/MidCodeInterpreter/main.cpp
+string
+-
+map
+-
+iostream
+-
+utility
+-
+vector
+-
+set
+-
+cassert
+-
+fstream
+-
+
