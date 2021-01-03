@@ -19,7 +19,7 @@ int main() {
     std::cout << "Initializing LLVM Target Machine Components" << std::endl;
     initializeTarget();
 //    initializeIOFunc();
-    ifstream file("C_with_if");
+    ifstream file("C.txt");
     vector<string> codeLine;
     string temp;
     while (getline(file, temp))

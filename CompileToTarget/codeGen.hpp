@@ -54,10 +54,10 @@
 using namespace llvm;
 using namespace std;
 
-extern std::unique_ptr<LLVMContext> TheContext;
-extern std::unique_ptr<Module> TheModule;
-extern std::unique_ptr<IRBuilder<>> Builder;
-extern std::map<std::string, Value *> NamedValues;
+extern std::unique_ptr<LLVMContext> TheContext; //LLVM Context变量
+extern std::unique_ptr<Module> TheModule; //LLVM Module变量
+extern std::unique_ptr<IRBuilder<>> Builder; //LLVM Builder变量
+extern std::map<std::string, Value *> NamedValues; //运行时对于Value值存储，为了契合LLVM的SSA形式
 
 void initializeLLVM();
 
