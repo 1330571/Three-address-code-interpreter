@@ -70,14 +70,14 @@ split block
 pf out.txt
 ```
 
-### 优化流程
+### 优化流程[未实现]
 
 - 消除局部公共子表达式(local common subexpression)
 - 消除死代码(dead code)
 - 重新排序，降低临时变量存储的时间
 - 利用代数规则简化计算过程
 
-### 优化技术
+### 优化技术[未实现]
 
 - Constant Folding
 
@@ -111,9 +111,9 @@ cmake ..
 make
 ```
 
-然后运行目标文件，生成一个fib.o文件
+然后运行编译完的文件，可以生成一个fib.o文件
 
-详情查看testFib.cpp文件
+详情查看testFib.cpp文件，和test.cpp文件查看调用方法
 
 编译testFib
 
@@ -122,6 +122,16 @@ clang++ testFib.cpp fib.o -o testFib
 ```
 
 运行testFib查看结果
+
+```bash
+./testFib
+```
+
+codeGen.hpp中定义了LLVM的全局变量
+
+buildObj函数是生成可重定位文件的函数，将.o文件生成在可执行文件同级目录下
+
+详情可以参考 [LLVM Tutorial](https://llvm.org/docs/tutorial/MyFirstLanguageFrontend/index.html)
 
 ## Reference
 

@@ -50,19 +50,29 @@ Value *createBinaryExpr(Value *lhs, Value *rhs, char op, bool includeEQ = false)
                 Value *v = Builder->CreateCmp(CmpInst::ICMP_SLT, lhs, rhs, "cmp_le");
                 v = Builder->CreateIntCast(v, Type::getInt32Ty(*TheContext), true);
                 return v;
+            } else {
+                Value *v = Builder->CreateCmp(CmpInst::ICMP_SLT, lhs, rhs, "cmp_le_eq");
+                v = Builder->CreateIntCast(v, Type::getInt32Ty(*TheContext), true);
+                return v;
             }
         }
-//            else return Builder->CreateCmp(CmpInst::FCMP_OLT, lhs, rhs, "cmp_le_eq");
-//        case '>':
-//            if (includeEQ) return Builder->CreateCmp(CmpInst::FCMP_OGE, lhs, rhs, "cmp_ge");
-//            else return Builder->CreateCmp(CmpInst::FCMP_OGT, lhs, rhs, "cmp_ge_eq");
+        case '>':
+            if (includeEQ) {
+                Value *v = Builder->CreateCmp(CmpInst::FCMP_OGE, lhs, rhs, "cmp_ge");
+                v = Builder->CreateIntCast(v, Type::getInt32Ty(*TheContext), true);
+                return v;
+            } else {
+                Value *v = Builder->CreateCmp(CmpInst::FCMP_OGT, lhs, rhs, "cmp_ge_eq");
+                v = Builder->CreateIntCast(v, Type::getInt32Ty(*TheContext), true);
+                return v;
+            }
         case '=': {
             Value *v = Builder->CreateCmp(CmpInst::ICMP_EQ, lhs, rhs, "cmp_eq");
 //            v = Builder->CreateIntCast(v, Type::getInt32Ty(*TheContext), true);
             return v;
         }
-//        case '!':
-//            return Builder->CreateCmp(CmpInst::FCMP_ONE, lhs, rhs, "cmp_ne");
+        case '!':
+            return Builder->CreateCmp(CmpInst::ICMP_NE, lhs, rhs, "cmp_ne");
         default:
             cout << "Error Op " << op << endl;
             assert(0);

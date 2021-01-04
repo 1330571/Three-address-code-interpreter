@@ -1,3 +1,7 @@
 /cmake-build-debug/
 test
-output.o
+/*.o
+broken
+testGcd
+testFib
+/build
